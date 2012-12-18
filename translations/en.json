@@ -12,5 +12,6 @@
 		},
 		"loading"     : "Initialising app...",
 		"searching"  	: "Searching related tickets...",
+		"no_results"	: "No results found."
 	}
 }

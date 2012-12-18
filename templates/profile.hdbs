@@ -1,3 +1,10 @@
 <div>
 	<h4>{{t "app.title"}}</h4>
+	{{#if results}}
+		<ul>
+			{{#each results}}
+				<li><a href="{{url}}" target="_blank">{{subject}}</a></li>
+			{{/each}}
+		</ul>
+	{{/if}}
 </div>
