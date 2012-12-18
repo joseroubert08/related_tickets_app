@@ -1,0 +1,16 @@
+{
+	"app": {
+		"description": "Shows related tickets",
+		"title": "Related tickets"
+    },
+
+  "global": {
+		"error": {
+			"title"     				: "An error occurred",
+			"message"   				: "Please try the previous action again.",
+			"data"     					: "Ticket data could not be read."
+		},
+		"loading"     : "Initialising app...",
+		"searching"  	: "Searching related tickets...",
+	}
+}
