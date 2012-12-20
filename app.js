@@ -10,10 +10,6 @@
 
     defaultState: 'loading',
 
-    resources: {
-
-    },
-
     requests: {
       search: function(params) {
         return {
@@ -41,8 +37,7 @@
 
     requiredProperties : [
       'ticket.id',
-      'ticket.description',
-      'ticket.tags'
+      'ticket.subject'
     ],
 
     init: function(data){
@@ -56,36 +51,24 @@
     searchTickets: function(){
       this.switchTo('searching');
 
-      var keywords = this.extractKeywords(this.ticket().description());
-      var tags = this.ticket().tags();
-
-      var descriptionQuery = 'description:';
-
-      _.each(keywords, function(element) {
-        descriptionQuery += element + ' ';
-      });
-
-      var tagsQuery = 'tags:';
-
-      _.each(tags, function(element) {
-        tagsQuery += element + ' ';
-      });
+      var keywords = this.extractKeywords(this.ticket().subject());
+      var query = keywords.join(" ");
 
       // parameters to search tickets that have been solved
-      var params = "type:ticket status>pending " + descriptionQuery + tagsQuery;
+      var params = query + "type:ticket status>pending";
 
       this.ajax('search', params);
     },
 
     extractKeywords: function(text) {
       // strip punctuation and extra spaces
-      text = text.toLowerCase().replace(/[\.,-\/#!$%\^&\*;:{}=\-_`~()]/g,"").replace(/\s{2,}/g," ");
+      text = text.toLowerCase().replace(/[\.,-\/#!$?%\^&\*;:{}=\-_`~()]/g,"").replace(/\s{2,}/g," ");
 
       // split by spaces
       var words = text.split(" ");
 
-      // remove common words
-      var exclusions = ['the','be','to','of','and','a','in','that','have','i','it','for','not','on','with','he','as','you','do','at','this','but','his','by','from','they','we','say','her','she','or','an','are','is','were','was'];
+      var exclusions = this.I18n.t('stopwords.exclusions').split(",");
+
       var keywords = _.difference(words, exclusions);
 
       return keywords;
