@@ -21,38 +21,9 @@
 
     events: {
       'app.activated'             : 'init',
-
-      'keydown #search-input': function(e) {
-        var query = this.$(e.target).val();
-
-        if (e.which === 13 && query.length > 2) {
-          this.searchTickets(this.$(e.target).val());
-          return false;
-        }
-      },
-
-      'requiredProperties.ready': function() {
-        var keywords = this.extractKeywords(this.ticket().subject()).join(" ");
-
-        this.$('#search-input').val(keywords);
-
-        this.searchTickets(keywords);
-      },
-
-      'search.done': function(data) {
-        var ticketId = this.ticket().id();
-
-        // remove current ticket from results
-        this.relatedTickets.results = _.reject(data.results, function(result) {
-          return result.id === ticketId;
-        });
-
-        if (this.relatedTickets.length > 10) {
-          this.relatedTickets.slice(0,10);
-        }
-
-        this.switchTo('results', this.relatedTickets);
-      }
+      'keydown #search-input'     : 'handleSearch',
+      'requiredProperties.ready'  : 'handleRequiredProperties',
+      'search.done'               : 'handleResults'
     },
 
     requiredProperties : [
@@ -75,6 +46,38 @@
       var params = keywords + " type:ticket status>pending";
 
       this.ajax('search', params);
+    },
+
+    handleSearch: function(e) {
+      var query = this.$(e.target).val();
+
+      if (e.which === 13) {
+        if (query.length > 2) this.searchTickets(this.$(e.target).val());
+        return false;
+      }
+    },
+
+    handleRequiredProperties: function() {
+      var keywords = this.extractKeywords(this.ticket().subject()).join(" ");
+
+      this.$('#search-input').val(keywords);
+
+      this.searchTickets(keywords);
+    },
+
+    handleResults: function(data) {
+      var ticketId = this.ticket().id();
+
+      // remove current ticket from results
+      this.relatedTickets.results = _.reject(data.results, function(result) {
+        return result.id === ticketId;
+      });
+
+      if (this.relatedTickets.length > 10) {
+        this.relatedTickets.slice(0,10);
+      }
+
+      this.switchTo('results', this.relatedTickets);
     },
 
     extractKeywords: function(text) {
