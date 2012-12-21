@@ -73,8 +73,8 @@
         return result.id === ticketId;
       });
 
-      if (this.relatedTickets.length > 10) {
-        this.relatedTickets.slice(0,10);
+      if (this.relatedTickets.results.length > 10) {
+        this.relatedTickets.results = this.relatedTickets.results.slice(0,10);
       }
 
       this.switchTo('results', this.relatedTickets);
