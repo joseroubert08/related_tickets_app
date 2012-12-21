@@ -3,7 +3,7 @@
 		<table class="table table-condensed">
 			<tbody>
 				{{#each results}}
-					<tr class="_tooltip" data-placement="top">
+					<tr class="_tooltip" data-title="{{description}}" data-placement="left">
 						<td>#{{id}}</td>
 						<td><a href="/agent/#/tickets/{{id}}" target="_blank">{{subject}}</a></td>
 					</tr>

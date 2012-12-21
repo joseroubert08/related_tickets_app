@@ -21,7 +21,23 @@
 
     events: {
       'app.activated'             : 'init',
-      'requiredProperties.ready'  : 'searchTickets',
+
+      'keydown #search-input': function(e) {
+        var query = this.$(e.target).val();
+
+        if (e.which === 13 && query.length > 2) {
+          this.searchTickets(this.$(e.target).val());
+          return false;
+        }
+      },
+
+      'requiredProperties.ready': function() {
+        var keywords = this.extractKeywords(this.ticket().subject()).join(" ");
+
+        this.$('#search-input').val(keywords);
+
+        this.searchTickets(keywords);
+      },
 
       'search.done': function(data) {
         var ticketId = this.ticket().id();
@@ -31,7 +47,7 @@
           return result.id === ticketId;
         });
 
-        this.switchTo('profile', this.relatedTickets);
+        this.switchTo('results', this.relatedTickets);
       }
     },
 
@@ -48,14 +64,11 @@
       this.allRequiredPropertiesExist();
     },
 
-    searchTickets: function(){
+    searchTickets: function(keywords){
       this.switchTo('searching');
 
-      var keywords = this.extractKeywords(this.ticket().subject());
-      var query = keywords.join(" ");
-
       // parameters to search tickets that have been solved
-      var params = query + "type:ticket status>pending";
+      var params = keywords + " type:ticket status>pending";
 
       this.ajax('search', params);
     },
