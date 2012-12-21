@@ -47,6 +47,10 @@
           return result.id === ticketId;
         });
 
+        if (this.relatedTickets.length > 10) {
+          this.relatedTickets.slice(0,10);
+        }
+
         this.switchTo('results', this.relatedTickets);
       }
     },
