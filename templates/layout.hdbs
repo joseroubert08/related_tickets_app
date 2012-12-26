@@ -2,7 +2,8 @@
   <span class="logo"/>
   <h3>{{setting "title"}}</h3>
 </header>
-<form class="form-search">
-  <input type="text" class="input-medium search-query" placeholder="{{t "search.keywords"}}" id="search-input" name="search-input">
-</form>
+<div class="search-wrapper">
+  <input type="text" placeholder="{{t "search.keywords"}}" id="search-input" name="search-input">
+  <span class="search-icon"></span>
+</div>
 <section data-main></section>

@@ -1,5 +1,17 @@
-form {
-  margin-bottom: 5px;
+.search-wrapper {
+  position: relative;
+  width: 300px;
+  margin: 10px 0 5px 0;
+
+  .search-icon {
+    background: url(/console/assets/icons/globals-s54b9a09d1f.png) no-repeat;
+    position: absolute;
+    background-position: 0 -377px;
+    top: 8px;
+    right: -5px;
+    width: 20px;
+    height: 20px;
+  }
 }
 
 .table tr:first-child td {
