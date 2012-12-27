@@ -53,13 +53,15 @@
       var query = this.$(e.target).val();
 
       if (e.which === 13) {
-        if (query.length > 2) this.searchTickets(this.$(e.target).val());
+        if (query.length > 2) this.searchTickets(query);
         return false;
       }
     },
 
-    handleClick: function(e) {
-      this.searchTickets(this.$(e.target).val());
+    handleClick: function() {
+      var query = this.$(".search-wrapper").find("#search-input").val();
+
+      if (query.length > 2) this.searchTickets(query);
     },
 
     handleRequiredProperties: function() {
@@ -81,6 +83,10 @@
       if (this.relatedTickets.results.length > 10) {
         this.relatedTickets.results = this.relatedTickets.results.slice(0,10);
       }
+
+      _.each(this.relatedTickets.results, function(result) {
+        result.description = result.description.substr(0,300).concat("...");
+      });
 
       this.switchTo('results', this.relatedTickets);
     },
