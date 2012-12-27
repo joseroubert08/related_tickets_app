@@ -2,8 +2,8 @@
   <span class="logo"/>
   <h3>{{setting "title"}}</h3>
 </header>
-<div class="search-wrapper">
+<form action="" class="search-wrapper">
   <input type="text" placeholder="{{t "search.keywords"}}" id="search-input" name="search-input">
   <span class="search-icon"></span>
-</div>
+</form>
 <section data-main></section>

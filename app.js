@@ -21,7 +21,8 @@
 
     events: {
       'app.activated'             : 'init',
-      'keydown #search-input'     : 'handleSearch',
+      'keydown #search-input'     : 'handleKeydown',
+      'click .search-icon'        : 'handleClick',
       'requiredProperties.ready'  : 'handleRequiredProperties',
       'search.done'               : 'handleResults'
     },
@@ -48,13 +49,17 @@
       this.ajax('search', params);
     },
 
-    handleSearch: function(e) {
+    handleKeydown: function(e) {
       var query = this.$(e.target).val();
 
       if (e.which === 13) {
         if (query.length > 2) this.searchTickets(this.$(e.target).val());
         return false;
       }
+    },
+
+    handleClick: function(e) {
+      this.searchTickets(this.$(e.target).val());
     },
 
     handleRequiredProperties: function() {
