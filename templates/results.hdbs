@@ -1,16 +1,16 @@
 <div>
-	{{#if results}}
-		<table class="table table-condensed">
-			<tbody>
-				{{#each results}}
-					<tr class="_tooltip" data-title="{{description}}" data-placement="left">
-						<td>#{{id}}</td>
-						<td><a href="/agent/#/tickets/{{id}}">{{subject}}</a></td>
-					</tr>
-				{{/each}}
-			</tbody>
-		</table>
-	{{else}}
-		<p>{{t "global.no_results"}}</p>
-	{{/if}}
+  {{#if data.results}}
+    <table class="table table-condensed">
+      <tbody>
+        {{#each data.results}}
+          <tr{{#if ../tooltip_enabled}} class="_tooltip" data-title="{{description}}" data-placement="left" {{/if}}>
+            <td>#{{id}}</td>
+            <td><a href="/agent/#/tickets/{{id}}">{{subject}}</a></td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{else}}
+    <p>{{t "global.no_results"}}</p>
+  {{/if}}
 </div>
