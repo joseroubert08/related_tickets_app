@@ -90,7 +90,7 @@
 
       this.switchTo('results', {
         data: this.relatedTickets,
-        disable_tooltip: this.setting('disable_tooltip')
+        tooltip_enabled: !this.setting('disable_tooltip')
       });
     },
 
