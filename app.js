@@ -88,7 +88,10 @@
         result.description = result.description.substr(0,300).concat("...");
       });
 
-      this.switchTo('results', this.relatedTickets);
+      this.switchTo('results', {
+        data: this.relatedTickets,
+        disable_tooltip: this.setting('disable_tooltip')
+      });
     },
 
     extractKeywords: function(text) {

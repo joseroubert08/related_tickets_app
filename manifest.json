@@ -8,5 +8,12 @@
   "defaultLocale": "en",
   "private": false,
   "singleInstall": true,
-  "frameworkVersion": "0.5"
+  "frameworkVersion": "0.5",
+
+  "parameters": [
+    {
+      "name": "disable_tooltip",
+      "type": "checkbox"
+    }
+  ]
 }

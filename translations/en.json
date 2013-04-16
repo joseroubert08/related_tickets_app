@@ -1,7 +1,10 @@
 {
   "app": {
     "description": "Shows related tickets",
-    "title": "Related tickets"
+    "title": "Related tickets",
+    "parameters": {
+      "disable_tooltip": { "label": "Disable tooltip" }
+    }
   },
 
   "global": {
