@@ -32,7 +32,7 @@ parts:
   - translation:
       key: "txt.apps.related_tickets_app.global.loading"
       title: "loading message"
-      value: "Initialising app..."
+      value: "Initializing app..."
   - translation:
       key: "txt.apps.related_tickets_app.global.searching"
       title: "loading search message"
