@@ -4,16 +4,18 @@
     "email": "support@zendesk.com"
   },
 
-  "location": "ticket_sidebar",
+  "location": ["ticket_sidebar","new_ticket_sidebar"],
   "defaultLocale": "en",
   "private": false,
   "singleInstall": true,
-  "frameworkVersion": "0.5",
+  "frameworkVersion": "1.0",
+  "version": "1.0",
 
   "parameters": [
     {
       "name": "disable_tooltip",
-      "type": "checkbox"
+      "type": "checkbox",
+      "default": "1"
     }
   ]
 }
