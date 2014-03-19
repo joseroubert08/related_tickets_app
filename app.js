@@ -24,7 +24,8 @@
       'keydown #search-input'     : 'handleKeydown',
       'click .search-icon'        : 'handleClick',
       'requiredProperties.ready'  : 'handleRequiredProperties',
-      'search.done'               : 'handleResults'
+      'search.done'               : 'handleResults',
+      'ticket.subject.changed'    : 'handleSubjecChanged'
     },
 
     init: function(data){
@@ -96,6 +97,10 @@
         tooltip_enabled: !this.setting('disable_tooltip')
       });
     },
+
+    handleSubjecChanged: _.debounce(function() {
+      this.handleRequiredProperties();
+    }, 400),
 
     extractKeywords: function(text) {
       // strip punctuation and extra spaces
