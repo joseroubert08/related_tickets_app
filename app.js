@@ -33,7 +33,6 @@
       }
 
       this.requiredProperties = [
-        'ticket.id',
         'ticket.subject'
       ];
 
@@ -75,10 +74,14 @@
     handleResults: function(data) {
       var ticketId = this.ticket().id();
 
-      // remove current ticket from results
-      this.relatedTickets.results = _.reject(data.results, function(result) {
-        return result.id === ticketId;
-      });
+      if (ticketId) {
+        // remove current ticket from results
+        this.relatedTickets.results = _.reject(data.results, function(result) {
+          return result.id === ticketId;
+        });
+      } else {
+        this.relatedTickets.results = data.results;
+      }
 
       if (this.relatedTickets.results.length > 10) {
         this.relatedTickets.results = this.relatedTickets.results.slice(0,10);
