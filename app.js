@@ -22,7 +22,7 @@
     events: {
       'app.created'               : 'onAppCreated',
       'keydown #search-input'     : 'handleKeydown',
-      'click .search-icon'        : 'handleClick',
+      'click .search'             : 'handleClick',
       'requiredProperties.ready'  : 'handleRequiredProperties',
       'search.done'               : 'handleResults',
       'ticket.subject.changed'    : 'handleSubjecChanged'
@@ -54,7 +54,9 @@
       }
     },
 
-    handleClick: function() {
+    handleClick: function(e) {
+      e.preventDefault();
+
       var query = this.$(".search-wrapper").find("#search-input").val();
 
       if (query.length > 2) this.searchTickets(query);
