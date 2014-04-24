@@ -5,7 +5,7 @@
 <form class="search-wrapper">
   <div class="row-fluid">
     <div class="span11">
-      <input type="text" placeholder="{{t "search.keywords"}}" id="search-input" name="search-input">
+      <input type="text" placeholder="{{t "search.keywords"}}" class="search-input" name="search-input">
     </div>
     <div class="span1">
       <button class="btn search"><i class="icon-search"></i></button>
