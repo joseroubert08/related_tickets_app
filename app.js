@@ -20,7 +20,7 @@
     },
 
     events: {
-      'app.activated'             : 'init',
+      'app.created'               : 'onAppCreated',
       'keydown #search-input'     : 'handleKeydown',
       'click .search-icon'        : 'handleClick',
       'requiredProperties.ready'  : 'handleRequiredProperties',
@@ -28,11 +28,7 @@
       'ticket.subject.changed'    : 'handleSubjecChanged'
     },
 
-    init: function(data){
-      if(!data.firstLoad){
-        return;
-      }
-
+    onAppCreated: function() {
       this.requiredProperties = [
         'ticket.subject'
       ];
