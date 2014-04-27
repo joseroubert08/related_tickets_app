@@ -3,7 +3,6 @@ title: "Related Tickets App"
 packages:
   - default
   - app_related_tickets_app
-  - classic
 
 parts:
   - translation:
