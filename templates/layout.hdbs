@@ -1,6 +1,6 @@
 <header>
   <span class="logo"/>
-  <h3 class="needs_tooltip" data-title="Foo">{{setting "title"}}</h3>
+  <h3>{{setting "title"}}</h3>
 </header>
 <form class="form-inline search-wrapper">
   <input type="text" placeholder="{{t "search.keywords"}}" class="search-input" name="search-input">
