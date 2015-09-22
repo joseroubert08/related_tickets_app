@@ -14,7 +14,7 @@
       "message": "Please try the previous action again.",
       "data": "Ticket data could not be read."
     },
-    "loading": "Initializing app...",
+    "loading": "Initialising app...",
     "searching": "Searching related tickets...",
     "no_results": "No results found."
   },
