@@ -12,7 +12,7 @@ parts:
   - translation:
       key: "txt.apps.related_tickets_app.app.title"
       title: "App title/name"
-      value: "Related tickets"
+      value: "Related Tickets"
   - translation:
       key: "txt.apps.related_tickets_app.app.parameters.disable_tooltip.label"
       title: "App option to disable the tooltip preview from happening"
