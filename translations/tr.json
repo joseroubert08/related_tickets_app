@@ -1,7 +1,7 @@
 {
   "app": {
     "description": "İlgili kayıtları gösterir",
-    "title": "İlgili kayıtlar",
+    "title": "İlgili Kayıtlar",
     "parameters": {
       "disable_tooltip": {
         "label": "Araç ipucunu devre dışı bırak"

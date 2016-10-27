@@ -1,6 +1,6 @@
 {
   "app": {
-    "description": "Näytä tähän liittyvät tiketit",
+    "description": "Näytä liittyvät tiketit",
     "title": "Liittyvät tiketit",
     "parameters": {
       "disable_tooltip": {

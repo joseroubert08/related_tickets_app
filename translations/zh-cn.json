@@ -14,7 +14,7 @@
       "message": "请重试先前的操作。",
       "data": "无法读取工单数据。"
     },
-    "loading": "正在初始化 app……",
+    "loading": "正在初始化应用……",
     "searching": "正在搜索相关工单……",
     "no_results": "没有发现结果。"
   },
