@@ -21,13 +21,16 @@ const App = {
   },
 
   onTicketSubjectChanged: _.debounce(function() {
-    if (_.isEmpty(this.ticket().subject())) { return; }
+    const self = this;
 
-    var keywords = this.extractKeywords(this.ticket().subject()).join(" ");
-
-    this.$('.search-input').val(keywords);
-
-    this.searchTickets(keywords);
+    const client = this.zafClient;
+    client.get('ticket.subject').then(function(subjectObj) {
+      if (!_.isEmpty(subjectObj)) {
+        const keywords = self.extractKeywords(subjectObj['ticket.subject']);
+        self.$('.search-input').val(keywords);
+        self.searchTickets(keywords);
+      }
+    });
   }, 400),
 
   onSearchKeyPressed: function(e) {
