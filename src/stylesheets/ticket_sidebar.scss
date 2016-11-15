@@ -1,5 +1,9 @@
-section[data-main] {
-  h3 {
-    margin-top: 5px;
-  }
+.search-wrapper {
+  position: relative;
+  width: 309px;
+  margin: 10px 0 5px 0;
+}
+
+.table tr:first-child td {
+  border-top: none !important;
 }
