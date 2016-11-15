@@ -1,6 +1,6 @@
 import BaseApp from 'base_app';
 
-var App = {
+const App = {
 
   requests: {
     search: function(params) {
@@ -31,7 +31,7 @@ var App = {
   }, 400),
 
   onSearchKeyPressed: function(e) {
-    var query = this.$(e.target).val();
+    const query = this.$(e.target).val();
 
     if (e.which === 13 && !_.isEmpty(query)) {
       e.preventDefault();
@@ -43,7 +43,7 @@ var App = {
   onSearchClicked: function(e) {
     e.preventDefault();
 
-    var query = this.$('.search-input').val();
+    const query = this.$('.search-input').val();
 
     if (!_.isEmpty(query)) {
       this.searchTickets(query);
@@ -51,8 +51,8 @@ var App = {
   },
 
   onSearchDone: function(data) {
-    var currentTicketId = this.ticket().id(),
-        tickets = data.results.slice(0,10);
+    const currentTicketId = this.ticket().id();
+    let tickets = data.results.slice(0,10);
 
     if (currentTicketId) {
       // remove current ticket from results
@@ -79,7 +79,7 @@ var App = {
     this.switchTo('searching');
 
     // parameters to search tickets that have been solved
-    var params = keywords + " type:ticket status>pending";
+    const params = keywords + " type:ticket status>pending";
 
     this.ajax('search', params);
   },
@@ -89,11 +89,11 @@ var App = {
     text = text.toLowerCase().replace(/[\.,-\/#!$?%\^&\*;:{}=\-_`~()]/g,"").replace(/\s{2,}/g," ");
 
     // split by spaces
-    var words = text.split(" ");
+    const words = text.split(" ");
 
-    var exclusions = this.I18n.t('stopwords.exclusions').split(",");
+    const exclusions = this.I18n.t('stopwords.exclusions').split(",");
 
-    var keywords = _.difference(words, exclusions);
+    const keywords = _.difference(words, exclusions);
 
     return keywords;
   },
