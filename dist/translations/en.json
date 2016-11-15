@@ -1,7 +1,17 @@
 {
   "_warning": "AUTOMATICALLY GENERATED FROM src/translations/en.json - DO NOT MODIFY THIS FILE DIRECTLY",
   "app": {
-    "name": "add your app name here",
-    "description": "add your app description here"
+    "description": {
+      "title": "App description",
+      "value": "Shows related tickets"
+    },
+    "parameters": {
+      "disable_tooltip": {
+        "label": {
+          "title": "App option to disable the tooltip preview from happening",
+          "value": "Disable tooltip"
+        }
+      }
+    }
   }
 }
