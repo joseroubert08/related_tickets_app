@@ -73,9 +73,9 @@ const App = {
         ticket.description = ticket.description.substr(0,300).concat("...");
       });
 
-      self.switchTo('results', {
+      this.switchTo('results', {
         tickets: tickets,
-        tooltip_enabled: !self.setting('disable_tooltip')
+        tooltip_enabled: !this.setting('disable_tooltip')
       });
     });
   },
