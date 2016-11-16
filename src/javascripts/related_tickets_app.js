@@ -21,14 +21,14 @@ const App = {
   },
 
   onTicketSubjectChanged: _.debounce(function() {
-    const self = this;
-
     const client = this.zafClient;
-    client.get('ticket.subject').then(function(subjectObj) {
-      if (!_.isEmpty(subjectObj)) {
-        const keywords = self.extractKeywords(subjectObj['ticket.subject']);
-        self.$('.search-input').val(keywords);
-        self.searchTickets(keywords);
+    client.get('ticket.subject').then((ticketSubjectObj) => {
+      const ticketSubject = ticketSubjectObj['ticket.subject'];
+      // don't search on empty subject lines
+      if (ticketSubject) {
+        const keywords = this.extractKeywords(ticketSubject);
+        this.$('.search-input').val(keywords);
+        this.searchTickets(keywords);
       }
     });
   }, 400),
@@ -53,24 +53,30 @@ const App = {
     }
   },
 
-  onSearchDone: function(data) {
-    const currentTicketId = this.ticket().id();
-    let tickets = data.results.slice(0,10);
+  onSearchDone: function(resultsObj) {
+    const client = this.zafClient;
+    client.get('ticket.id').then((ticketIdObj) => {
+      const currentTicketId = ticketIdObj['ticket.id'];
 
-    if (currentTicketId) {
+      // take only the top 10 related tickets
+      let tickets = resultsObj.results.slice(0,10);
+
       // remove current ticket from results
-      tickets = _.reject(tickets, function(ticket) {
-        return ticket.id === currentTicketId;
+      if (currentTicketId) {
+        tickets = _.reject(tickets, function(ticket) {
+          return ticket.id === currentTicketId;
+        });
+      }
+
+      // trim the returned result string and append ellipses
+      _.each(tickets, function(ticket) {
+        ticket.description = ticket.description.substr(0,300).concat("...");
       });
-    }
 
-    _.each(tickets, function(ticket) {
-      ticket.description = ticket.description.substr(0,300).concat("...");
-    });
-
-    this.switchTo('results', {
-      tickets: tickets,
-      tooltip_enabled: !this.setting('disable_tooltip')
+      self.switchTo('results', {
+        tickets: tickets,
+        tooltip_enabled: !self.setting('disable_tooltip')
+      });
     });
   },
 
@@ -93,9 +99,7 @@ const App = {
 
     // split by spaces
     const words = text.split(" ");
-
     const exclusions = this.I18n.t('stopwords.exclusions').split(",");
-
     const keywords = _.difference(words, exclusions);
 
     return keywords;
