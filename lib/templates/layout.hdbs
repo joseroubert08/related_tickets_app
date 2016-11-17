@@ -8,6 +8,14 @@
     {{/each}}
   </head>
   <body>
+    <form class="search-wrapper">
+      <div class="input-append">
+        <input type="text" class="search-input" name="search-input">
+        <button class="btn search" type="button">
+          <i class="icon-search"></i>
+        </button>
+      </div>
+    </form>
     <section data-main></section>
     {{#each htmlWebpackPlugin.options.vendorJs}}
       <script type="text/javascript" src="{{this}}"></script>
