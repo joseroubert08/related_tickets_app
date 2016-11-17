@@ -14,7 +14,7 @@ const App = {
   events: {
     'app.created'             : 'onTicketSubjectChanged',
     'ticket.subject.changed'  : 'onTicketSubjectChanged',
-    'keydown #search-input'   : 'onSearchKeyPressed',
+    'keydown .search-input'   : 'onSearchKeyPressed',
     'click .search'           : 'onSearchClicked',
     'search.done'             : 'onSearchDone',
     'search.fail'             : 'onSearchFailed'
@@ -22,8 +22,10 @@ const App = {
 
   onTicketSubjectChanged: _.debounce(function() {
     const client = this.zafClient;
+
     client.get('ticket.subject').then((ticketSubjectObj) => {
       const ticketSubject = ticketSubjectObj['ticket.subject'];
+
       // don't search on empty subject lines
       if (ticketSubject) {
         const keywords = this.extractKeywords(ticketSubject);
@@ -31,6 +33,9 @@ const App = {
 
         this.$('.search-input').val(query);
         this.searchTickets(query);
+      } else {
+        // initialise app with input placeholder text
+        this.$('.search-input').attr('placeholder', this.I18n.t('search.keywords'));
       }
     });
   }, 400),
