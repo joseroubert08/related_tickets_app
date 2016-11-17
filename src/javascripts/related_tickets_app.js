@@ -91,11 +91,11 @@ const App = {
     this.showError();
   },
 
-  searchTickets: function(keywords){
+  searchTickets: function(query){
     this.switchTo('searching');
 
     // parameters to search tickets that have been solved
-    const params = keywords + " type:ticket status>pending";
+    const params = `${query} type:ticket status>pending`;
 
     this.ajax('search', params);
   },
