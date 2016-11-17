@@ -27,8 +27,10 @@ const App = {
       // don't search on empty subject lines
       if (ticketSubject) {
         const keywords = this.extractKeywords(ticketSubject);
-        this.$('.search-input').val(keywords);
-        this.searchTickets(keywords);
+        const query = keywords.join(" ");
+
+        this.$('.search-input').val(query);
+        this.searchTickets(query);
       }
     });
   }, 400),
