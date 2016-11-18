@@ -13,6 +13,36 @@ describe('RelatedTicketsApp', () => {
     app = new RelatedTicketsApp(client, { metadata: {}, context: {} });
   });
 
+  describe('onSearchKeyPressed()', () => {
+    beforeEach(() => {
+      spyOn(app, 'searchTickets');
+    });
+
+    it('performs a search when the enter key is pressed with a valid query input string', () => {
+      const searchInput = document.createElement('input');
+      const e = {
+        target: searchInput,
+        which: 13,
+        preventDefault: () => { return null; }
+      };
+
+      searchInput.value = 'query string';
+      app.onSearchKeyPressed(e);
+      expect(app.searchTickets).toHaveBeenCalledWith('query string');
+    });
+
+    it('does not perform a search for an empty query string', () => {
+      const searchInput = document.createElement('input');
+      const e = {
+        target: searchInput,
+        which: 13,
+        preventDefault: () => { return null; }
+      };
+
+      app.onSearchKeyPressed(e);
+      expect(app.searchTickets).not.toHaveBeenCalled();
+    });
+  });
   describe('onSearchFailed()', () => {
     beforeEach(() => {
       spyOn(app, 'showError');
