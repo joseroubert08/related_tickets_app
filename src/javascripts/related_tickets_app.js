@@ -94,7 +94,7 @@ const App = {
     this.showError();
   },
 
-  searchTickets: function(query){
+  searchTickets: function(query) {
     this.switchTo('searching');
 
     // parameters to search tickets that have been solved
