@@ -12,7 +12,7 @@ const App = {
   },
 
   events: {
-    'app.created'             : 'onTicketSubjectChanged',
+    'app.created'             : 'init',
     'ticket.subject.changed'  : 'onTicketSubjectChanged',
     'keydown .search-input'   : 'onSearchKeyPressed',
     'click .search'           : 'onSearchClicked',
@@ -20,24 +20,30 @@ const App = {
     'search.fail'             : 'onSearchFailed'
   },
 
-  onTicketSubjectChanged: _.debounce(function() {
+  init: function() {
     const client = this.zafClient;
 
-    client.get('ticket.subject').then((ticketSubjectObj) => {
-      const ticketSubject = ticketSubjectObj['ticket.subject'];
+    client.get('ticket').then((ticket) => {
+      this.ticket = {};
+      this.ticket.id = ticket.ticket.id;
+      this.ticket.subject = ticket.ticket.subject;
 
-      // don't search on empty subject lines
-      if (ticketSubject) {
-        const keywords = this.extractKeywords(ticketSubject);
-        const query = keywords.join(" ");
-
-        this.$('.search-input').val(query);
-        this.searchTickets(query);
-      } else {
-        // initialise app with input placeholder text
-        this.$('.search-input').attr('placeholder', this.I18n.t('search.keywords'));
-      }
+      this.onTicketSubjectChanged(this.ticket.subject);
     });
+  },
+
+  onTicketSubjectChanged: _.debounce(function(ticketSubject) {
+    // don't search on empty subject lines
+    if (ticketSubject) {
+      const keywords = this.extractKeywords(ticketSubject);
+      const query = keywords.join(" ");
+
+      this.$('.search-input').val(query);
+      this.searchTickets(query);
+    } else {
+      // initialise app with input placeholder text
+      this.$('.search-input').attr('placeholder', this.I18n.t('search.keywords'));
+    }
   }, 400),
 
   onSearchKeyPressed: function(e) {
@@ -61,29 +67,26 @@ const App = {
   },
 
   onSearchDone: function(resultsObj) {
-    const client = this.zafClient;
-    client.get('ticket.id').then((ticketIdObj) => {
-      const currentTicketId = ticketIdObj['ticket.id'];
+    const currentTicketId = this.ticket.id;
 
-      // take only the top 10 related tickets
-      let tickets = resultsObj.results.slice(0,10);
+    // take only the top 10 related tickets
+    let tickets = resultsObj.results.slice(0,10);
 
-      // remove current ticket from results
-      if (currentTicketId) {
-        tickets = _.reject(tickets, function(ticket) {
-          return ticket.id === currentTicketId;
-        });
-      }
-
-      // trim the returned result string and append ellipses
-      _.each(tickets, function(ticket) {
-        ticket.description = ticket.description.substr(0,300).concat("...");
+    // remove current ticket from results
+    if (currentTicketId) {
+      tickets = _.reject(tickets, function(ticket) {
+        return ticket.id === currentTicketId;
       });
+    }
 
-      this.switchTo('results', {
-        tickets: tickets,
-        tooltip_enabled: !this.setting('disable_tooltip')
-      });
+    // trim the returned result string and append ellipses
+    _.each(tickets, function(ticket) {
+      ticket.description = ticket.description.substr(0,300).concat("...");
+    });
+
+    this.switchTo('results', {
+      tickets: tickets,
+      tooltip_enabled: !this.setting('disable_tooltip')
     });
   },
 
