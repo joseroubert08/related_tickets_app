@@ -1,24 +1,25 @@
 {
-  "name": "app_scaffold",
-  "version": "0.0.1",
-  "description": "A scaffold for developers to build ZAF v2 apps",
+  "name": "related_tickets_app",
+  "version": "2.0",
+  "description": "A Zendesk app that shows a list of tickets related to the current ticket being viewed.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/zendesk/app_scaffold.git"
+    "url": "https://github.com/zendesk/related_tickets_app.git"
   },
   "scripts": {
     "build": "webpack -p",
     "watch": "webpack --watch"
   },
-  "license": "Apache-2.0",
+  "license": "MIT",
   "author": "Zendesk",
   "keywords": [
     "zendesk",
     "app",
-    "framework"
+    "framework",
+    "search"
   ],
   "bugs": {
-    "url": "https://github.com/zendesk/app_scaffold/issues"
+    "url": "https://github.com/zendesk/related_tickets_app/issues"
   },
   "devDependencies": {
     "babel-core": "^6.5.2",
