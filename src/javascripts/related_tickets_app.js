@@ -81,7 +81,7 @@ const App = {
 
     // trim the returned result string and append ellipses
     _.each(tickets, function(ticket) {
-      ticket.description = ticket.description.substr(0,300).concat("...");
+      ticket.description = ticket.description.substr(0,300).concat("…");
     });
 
     this.switchTo('results', {
