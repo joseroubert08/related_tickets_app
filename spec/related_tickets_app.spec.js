@@ -31,6 +31,19 @@ describe('RelatedTicketsApp', () => {
       expect(app.searchTickets).toHaveBeenCalledWith('query string');
     });
 
+    it('does not perform a search if a key other than enter is pressed', () => {
+      const searchInput = document.createElement('input');
+      const e = {
+        target: searchInput,
+        which: 9,
+        preventDefault: () => { return null; }
+      };
+
+      searchInput.value = 'query string';
+      app.onSearchKeyPressed(e);
+      expect(app.searchTickets).not.toHaveBeenCalled();
+    });
+
     it('does not perform a search for an empty query string', () => {
       const searchInput = document.createElement('input');
       const e = {
