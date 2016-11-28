@@ -24,11 +24,7 @@ const App = {
     const client = this.zafClient;
 
     client.get('ticket').then((ticket) => {
-      this.ticket = {};
-      this.ticket.id = ticket.ticket.id;
-      this.ticket.subject = ticket.ticket.subject;
-
-      this.onTicketSubjectChanged(this.ticket.subject);
+      this.onTicketSubjectChanged(ticket.ticket.subject);
     });
   },
 
@@ -67,26 +63,31 @@ const App = {
   },
 
   onSearchDone: function(resultsObj) {
-    const currentTicketId = this.ticket.id;
+    const client = this.zafClient;
+    let currentTicketId;
 
-    // take only the top 10 related tickets
-    let tickets = resultsObj.results.slice(0,10);
+    client.get('ticket').then((ticket) => {
+      currentTicketId = ticket.ticket.id;
 
-    // remove current ticket from results
-    if (currentTicketId) {
-      tickets = _.reject(tickets, function(ticket) {
-        return ticket.id === currentTicketId;
+      // take only the top 10 related tickets
+      let tickets = resultsObj.results.slice(0,10);
+
+      // remove current ticket from results
+      if (currentTicketId) {
+        tickets = _.reject(tickets, function(ticket) {
+          return ticket.id === currentTicketId;
+        });
+      }
+
+      // trim the returned result string and append ellipses
+      _.each(tickets, function(ticket) {
+        ticket.description = ticket.description.substr(0,300).concat("…");
       });
-    }
 
-    // trim the returned result string and append ellipses
-    _.each(tickets, function(ticket) {
-      ticket.description = ticket.description.substr(0,300).concat("…");
-    });
-
-    this.switchTo('results', {
-      tickets: tickets,
-      tooltip_enabled: !this.setting('disable_tooltip')
+      this.switchTo('results', {
+        tickets: tickets,
+        tooltip_enabled: !this.setting('disable_tooltip')
+      });
     });
   },
 
