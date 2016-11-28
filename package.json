@@ -10,7 +10,7 @@
     "build": "webpack -p",
     "watch": "webpack --watch"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "author": "Zendesk",
   "keywords": [
     "zendesk",
