@@ -60,7 +60,9 @@ describe('RelatedTicketsApp', () => {
   describe('searchTickets()', () => {
     beforeEach(() => {
       spyOn(app, 'switchTo');
-      spyOn(app, 'ajax');
+      spyOn(app, 'ajax').and.returnValue({
+        then: () => {}
+      });
     });
 
     const query = 'There is a problem';
@@ -70,7 +72,7 @@ describe('RelatedTicketsApp', () => {
       expect(app.switchTo).toHaveBeenCalledWith('searching');
     });
 
-    it('should perform an ajax request with the correct filtering parameters', () => {
+    it('should attempt an ajax request with the correct filtering parameters', () => {
       app.searchTickets(query);
       expect(app.ajax).toHaveBeenCalledWith('search', `${query} type:ticket status>pending`);
     });
