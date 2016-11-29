@@ -3,9 +3,9 @@ import BaseApp from 'base_app';
 const App = {
 
   requests: {
-    search: function(params) {
+    search: function(query) {
       return {
-        url: '/api/v2/search.json?query=' + params,
+        url: '/api/v2/search.json?query=' + query,
         type: 'GET'
       };
     }
@@ -15,13 +15,11 @@ const App = {
     'app.created'             : 'init',
     'ticket.subject.changed'  : 'onTicketSubjectChanged',
     'keydown .search-input'   : 'onSearchKeyPressed',
-    'click .search'           : 'onSearchClicked',
-    'search.done'             : 'onSearchDone',
-    'search.fail'             : 'onSearchFailed'
+    'click .search'           : 'onSearchClicked'
   },
 
   init: function() {
-    this.activeSearches = 0;
+    this.lastSearchedQuery = '';
 
     const client = this.zafClient;
 
@@ -64,53 +62,56 @@ const App = {
     }
   },
 
-  onSearchDone: function(resultsObj) {
-    const client = this.zafClient;
-    let currentTicketId;
+  onSearchDone: function(query, resultsObj) {
+    // only display our results if this is the most recently run search
+    if (this.lastSearchedQuery === query) {
+      const client = this.zafClient;
+      let currentTicketId;
 
-    client.get('ticket.id').then(data => {
-      currentTicketId = data['ticket.id'];
+      client.get('ticket.id').then(data => {
+        currentTicketId = data['ticket.id'];
 
-      // take only the top 10 related tickets
-      let tickets = resultsObj.results.slice(0,10);
+        // take only the top 10 related tickets
+        let tickets = resultsObj.results.slice(0,10);
 
-      // remove current ticket from results
-      if (currentTicketId) {
-        tickets = _.reject(tickets, function(ticket) {
-          return ticket.id === currentTicketId;
+        // remove current ticket from results
+        if (currentTicketId) {
+          tickets = _.reject(tickets, function(ticket) {
+            return ticket.id === currentTicketId;
+          });
+        }
+
+        // trim the returned result string and append ellipses
+        _.each(tickets, function(ticket) {
+          ticket.description = ticket.description.substr(0,300).concat("…");
         });
-      }
 
-      // trim the returned result string and append ellipses
-      _.each(tickets, function(ticket) {
-        ticket.description = ticket.description.substr(0,300).concat("…");
-      });
 
-      // only switch views if this is the final search
-      if (this.activeSearches === 1) {
         this.switchTo('results', {
           tickets: tickets,
           tooltip_enabled: !this.setting('disable_tooltip')
         });
-      }
-
-      this.activeSearches--;
-    });
+      });
+    }
   },
 
   onSearchFailed: function() {
-    this.activeSearches--;
     this.showError();
   },
 
   searchTickets: function(query) {
-    this.activeSearches++;
     this.switchTo('searching');
 
     // parameters to search tickets that have been solved
-    const params = `${query} type:ticket status>pending`;
+    const filteredQuery = `${query} type:ticket status>pending`;
 
-    this.ajax('search', params);
+    // globally store the most recent search
+    this.lastSearchedQuery = filteredQuery;
+
+    this.ajax('search', filteredQuery).then(
+      this.onSearchDone.bind(this, filteredQuery),
+      this.onSearchFailed
+    );
   },
 
   extractKeywords: function(text) {
