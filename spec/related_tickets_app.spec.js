@@ -18,44 +18,34 @@ describe('RelatedTicketsApp', () => {
       spyOn(app, 'searchTickets');
     });
 
-    it('performs a search when the enter key is pressed with a valid query input string', () => {
+    const keypressInSearchEl = (inputStr, keyCode) => {
       const searchInput = document.createElement('input');
       const e = {
         target: searchInput,
-        which: 13,
+        which: keyCode,
         preventDefault: () => { return null; }
       };
 
-      searchInput.value = 'query string';
+      if (inputStr) { searchInput.value = inputStr }
       app.onSearchKeyPressed(e);
+    }
+
+    it('performs a search when the enter key is pressed with a valid query input string', () => {
+      keypressInSearchEl('query string', 13);
       expect(app.searchTickets).toHaveBeenCalledWith('query string');
     });
 
     it('does not perform a search if a key other than enter is pressed', () => {
-      const searchInput = document.createElement('input');
-      const e = {
-        target: searchInput,
-        which: 9,
-        preventDefault: () => { return null; }
-      };
-
-      searchInput.value = 'query string';
-      app.onSearchKeyPressed(e);
+      keypressInSearchEl('query string', 9);
       expect(app.searchTickets).not.toHaveBeenCalled();
     });
 
     it('does not perform a search for an empty query string', () => {
-      const searchInput = document.createElement('input');
-      const e = {
-        target: searchInput,
-        which: 13,
-        preventDefault: () => { return null; }
-      };
-
-      app.onSearchKeyPressed(e);
+      keypressInSearchEl('', 13);
       expect(app.searchTickets).not.toHaveBeenCalled();
     });
   });
+
   describe('onSearchFailed()', () => {
     beforeEach(() => {
       spyOn(app, 'showError');
