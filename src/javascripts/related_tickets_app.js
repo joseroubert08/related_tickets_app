@@ -21,6 +21,8 @@ const App = {
   },
 
   init: function() {
+    this.activeSearches = 0;
+
     const client = this.zafClient;
 
     client.get('ticket.subject').then(data => {
@@ -91,14 +93,18 @@ const App = {
           tooltip_enabled: !this.setting('disable_tooltip')
         });
       }
+
+      this.activeSearches--;
     });
   },
 
   onSearchFailed: function() {
+    this.activeSearches--;
     this.showError();
   },
 
   searchTickets: function(query) {
+    this.activeSearches++;
     this.switchTo('searching');
 
     // parameters to search tickets that have been solved
