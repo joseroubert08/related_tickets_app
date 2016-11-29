@@ -23,8 +23,8 @@ const App = {
   init: function() {
     const client = this.zafClient;
 
-    client.get('ticket').then((ticket) => {
-      this.onTicketSubjectChanged(ticket.ticket.subject);
+    client.get('ticket.subject').then(data => {
+      this.onTicketSubjectChanged(data['ticket.subject']);
     });
   },
 
@@ -66,8 +66,8 @@ const App = {
     const client = this.zafClient;
     let currentTicketId;
 
-    client.get('ticket').then((ticket) => {
-      currentTicketId = ticket.ticket.id;
+    client.get('ticket.id').then(data => {
+      currentTicketId = data['ticket.id'];
 
       // take only the top 10 related tickets
       let tickets = resultsObj.results.slice(0,10);
@@ -84,10 +84,13 @@ const App = {
         ticket.description = ticket.description.substr(0,300).concat("…");
       });
 
-      this.switchTo('results', {
-        tickets: tickets,
-        tooltip_enabled: !this.setting('disable_tooltip')
-      });
+      // only switch views if this is the final search
+      if (this.activeSearches === 1) {
+        this.switchTo('results', {
+          tickets: tickets,
+          tooltip_enabled: !this.setting('disable_tooltip')
+        });
+      }
     });
   },
 
