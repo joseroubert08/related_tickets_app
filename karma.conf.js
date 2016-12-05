@@ -1,7 +1,7 @@
 var webpackConfig = require('./webpack.config.js');
 
 module.exports = function(config) {
-  config.set({
+  var configuration = {
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
 
@@ -75,13 +75,17 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome_without_security'],
+    browsers: ['Chrome_no_security'],
 
     customLaunchers: {
       // CRUFT: needed to load zaf_sdk with crossorigin=anonymous
-      Chrome_without_security: {
+      Chrome_no_security: {
         base: 'Chrome',
         flags: ['--disable-web-security']
+      },
+      Chrome_travis_ci: {
+        base: 'Chrome_no_security',
+        flags: ['--no-sandbox']
       }
     },
 
@@ -92,5 +96,11 @@ module.exports = function(config) {
     // Concurrency level
     // how many browser should be started simultaneous
     concurrency: Infinity
-  })
+  }
+
+  if (process.env.TRAVIS) {
+    configuration.browsers = ['Chrome_travis_ci'];
+  }
+
+  config.set(configuration);
 }
