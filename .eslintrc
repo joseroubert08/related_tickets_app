@@ -8,7 +8,8 @@
   "env": {
     "browser": true,
     "commonjs": true,
-    "es6": true
+    "es6": true,
+    "jasmine": true
   },
   "parserOptions": {
     "ecmaVersion": 6,
@@ -21,6 +22,5 @@
     "Handlebars": true,
     "_": true,
     "moment": true,
-    "jasmine": true
   }
 }
