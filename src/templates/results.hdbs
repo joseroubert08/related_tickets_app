@@ -11,6 +11,6 @@
       </tbody>
     </table>
   {{else}}
-    <p>{{t "global.no_results"}}</p>
+    <div>{{t "global.no_results"}}</div>
   {{/if}}
 </div>
