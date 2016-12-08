@@ -4,7 +4,7 @@
     "email": "support@zendesk.com"
   },
   "location": {
-    "support" : {
+    "support": {
       "ticket_sidebar": "assets/index.html",
       "new_ticket_sidebar": "assets/index.html"
     }
@@ -13,8 +13,7 @@
   "private": false,
   "singleInstall": true,
   "frameworkVersion": "2.0",
-  "version": "1.0.1",
-
+  "version": "2.0.0",
   "parameters": [
     {
       "name": "disable_tooltip",
