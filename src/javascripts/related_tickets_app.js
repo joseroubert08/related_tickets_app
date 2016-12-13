@@ -12,10 +12,11 @@ const App = {
   },
 
   events: {
-    'app.created'             : 'init',
-    'ticket.subject.changed'  : 'onTicketSubjectChanged',
-    'keydown .search-input'   : 'onSearchKeyPressed',
-    'click .search'           : 'onSearchClicked'
+    'app.created'                 : 'init',
+    'ticket.subject.changed'      : 'onTicketSubjectChanged',
+    'keydown .search-input'       : 'onSearchKeyPressed',
+    'click .search'               : 'onSearchClicked',
+    'click .related-ticket-link'  : 'onRelatedTicketLinkClicked'
   },
 
   init: function() {
@@ -26,6 +27,16 @@ const App = {
     client.get('ticket.subject').then(data => {
       this.onTicketSubjectChanged(data['ticket.subject']);
     });
+  },
+
+  onRelatedTicketLinkClicked: function(e) {
+    e.preventDefault();
+
+    if (e.target.dataset && e.target.dataset.ticketId) {
+      const client = this.zafClient;
+
+      client.invoke('routeTo', 'ticket', e.target.dataset.ticketId);
+    }
   },
 
   onTicketSubjectChanged: _.debounce(function(ticketSubject) {

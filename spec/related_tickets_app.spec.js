@@ -4,13 +4,33 @@ import RelatedTicketsApp from '../src/javascripts/related_tickets_app';
 
 describe('RelatedTicketsApp', () => {
   let app;
+  let client;
 
   beforeEach(() => {
-    const client = ZAFClient.init();
-    const currentUserLocale = 'en-US';
+    client = ZAFClient.init();
 
+    const currentUserLocale = 'en-US';
     I18n.loadTranslations(currentUserLocale);
+
     app = new RelatedTicketsApp(client, { metadata: {}, context: {} });
+  });
+
+  describe('onRelatedTicketLinkClicked()', () => {
+    beforeEach(() => {
+      spyOn(client, 'invoke');
+    });
+
+    it('should open a new ticket tab with the correct ticket ID', () => {
+      const relatedTicketLink = document.createElement('a');
+      relatedTicketLink.dataset.ticketId = '123';
+      const e = {
+        target: relatedTicketLink,
+        preventDefault: () => { return null; }
+      };
+      app.onRelatedTicketLinkClicked(e);
+
+      expect(client.invoke).toHaveBeenCalledWith('routeTo', 'ticket', '123');
+    });
   });
 
   describe('onSearchKeyPressed()', () => {
