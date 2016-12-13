@@ -97,10 +97,16 @@ const App = {
           ticket.description = ticket.description.substr(0,300).concat("…");
         });
 
+        client.context().then(data => {
+          const host = data.host;
+          const subdomain = data.account.subdomain;
+          const base_url = 'http://' + subdomain + '.' + host + '.com';
 
-        this.switchTo('results', {
-          tickets: tickets,
-          tooltip_enabled: !this.setting('disable_tooltip')
+          this.switchTo('results', {
+            tickets: tickets,
+            tooltip_enabled: !this.setting('disable_tooltip'),
+            base_url: base_url
+          });
         });
       });
     }
