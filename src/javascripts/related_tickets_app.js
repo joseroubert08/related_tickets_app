@@ -98,9 +98,8 @@ const App = {
         });
 
         client.context().then(data => {
-          const host = data.host;
           const subdomain = data.account.subdomain;
-          const base_url = 'http://' + subdomain + '.' + host + '.com';
+          const base_url = 'https://' + subdomain + '.zendesk.com';
 
           this.switchTo('results', {
             tickets: tickets,
