@@ -25,7 +25,7 @@ describe('RelatedTicketsApp', () => {
       relatedTicketLink.dataset.ticketId = '123';
       const e = {
         target: relatedTicketLink,
-        preventDefault: () => { return null; }
+        preventDefault: () => null
       };
       app.onRelatedTicketLinkClicked(e);
 
@@ -43,7 +43,7 @@ describe('RelatedTicketsApp', () => {
       const e = {
         target: searchInput,
         which: keyCode,
-        preventDefault: () => { return null; }
+        preventDefault: () => null
       };
 
       if (inputStr) { searchInput.value = inputStr }
